@@ -83,14 +83,44 @@ for col in columns:
     tree.heading(col,text=col)
     tree.column(col, width=100)
 
-tree.place(x=0,y=30, width=350, height=200)
+tree.place(x=40,y=50, width=600, height=180)
 
+# Create a matplotlib figure
+fig = Figure(figsize=(6, 2), dpi=100)
+plot = fig.add_subplot(1, 1, 1)
+
+# Sample data
+x = [1, 2, 3]
+y = [1, 4, 8]
+
+# Plot the data
+plot.plot(x, y, marker='D')  # D is for diamond marker
+
+# Set limits for x and y axes to match the example
+plot.set_xlim(0.8, 3.2)
+plot.set_ylim(0, 10)
+
+# Add the legend
+plot.legend(["Series1"], loc="best")
+
+# Create a canvas for the plot and add it to the select_cable_frame
+canvas_select = FigureCanvasTkAgg(fig, master=select_cable_frame)
+canvas_select.draw()
+canvas_select.get_tk_widget().place(x=40, y=240, width=600, height=250)
+
+# Create a canvas for the plot and add it to the shift_cable_frame
+canvas_shift = FigureCanvasTkAgg(fig, master=shift_cable_frame)
+canvas_shift.draw()
+canvas_shift.get_tk_widget().place(x=40, y=240, width=600, height=250)
+"""
 shift_tree = ttk.Treeview(shift_cable_frame, columns=columns, show="headings")
 for col in columns:
     shift_tree.heading(col,text=col)
     shift_tree.column(col, width=100)
 
 shift_tree.place(x=0, y=30, width=350, height=200)
+
+
 
 columns = ("Test Conditon", "Test Result")
 tree = ttk.Treeview(select_cable_frame, columns=columns, show="headings")
@@ -99,21 +129,23 @@ for col in columns:
     tree.column(col, width=100)
 
 tree.place(x=0,y=30, width=350, height=200)
-
+"""
 shift_tree = ttk.Treeview(shift_cable_frame, columns=columns, show="headings")
 for col in columns:
     shift_tree.heading(col,text=col)
     shift_tree.column(col, width=100)
 
-shift_tree.place(x=0, y=30, width=350, height=200)
+shift_tree.place(x=40, y=50, width=600, height=180)
+
+
 
 
 footer_frame = ttk.Frame(root, relief="solid", borderwidth=1)
-footer_frame.place(x=50,y=600, width=1300, height=40)
+footer_frame.place(x=55,y=780, width=1415, height=40)
 
 footer_fields = ["LOAD", "KGF", "STROKE", "MM", "SPEED", "MM/SEC"]
 for i, field in enumerate(footer_fields):
-    ttk.Label(footer_frame, text=field).grid(row=0, column=i*2,padx=5,pady=5)
-    ttk.Entry(footer_frame).grid(row=0, column=i*2+1, padx=5, pady=5)
+    ttk.Label(footer_frame, text=field).grid(row=0, column=i*2,padx=15,pady=10)
+    ttk.Entry(footer_frame).grid(row=0, column=i*2+1, padx=15, pady=10)
 
 root.mainloop()

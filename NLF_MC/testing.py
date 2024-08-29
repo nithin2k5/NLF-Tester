@@ -1,41 +1,33 @@
 import tkinter as tk
-from tkinter import ttk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Sample data
-x_values = [1, 2, 3, 4, 5]
-y_values = [2, 3, 5, 7, 11]
+x = [1, 2, 3]
+y = [1, 4, 8]
 
-# Function to create the line graph
-def create_line_graph():
-    # Create a new figure
-    fig = Figure(figsize=(6, 4), dpi=100)
-    ax = fig.add_subplot(111)
-    
-    # Create the line graph
-    ax.plot(x_values, y_values, marker='o', linestyle='-', color='blue')
-    ax.set_title('Sample Line Graph')
-    ax.set_xlabel('X Values')
-    ax.set_ylabel('Y Values')
-    
-    # Add the figure to the Tkinter canvas
-    canvas = FigureCanvasTkAgg(fig, master=chart_frame)
-    canvas.draw()
-    canvas.get_tk_widget().pack()
-
-# Create the main window
+# Create a tkinter window
 root = tk.Tk()
-root.title("Statistic Line Graph")
-root.geometry("700x500")
+root.title("Line Graph using Tkinter")
 
-# Frame for the chart
-chart_frame = tk.Frame(root)
-chart_frame.pack(pady=20)
+# Create a matplotlib figure
+fig = Figure(figsize=(5, 4), dpi=100)
+plot = fig.add_subplot(1, 1, 1)
 
-# Button to generate the chart
-chart_button = tk.Button(root, text="Generate Line Graph", command=create_line_graph)
-chart_button.pack(pady=10)
+# Plot the data
+plot.plot(x, y, marker='D')  # D is for diamond marker
 
-# Run the application
+# Set limits for x and y axes to match the example
+plot.set_xlim(0.8, 3.2)
+plot.set_ylim(0, 10)
+
+# Add the legend
+plot.legend(["Series1"], loc="best")
+
+# Add the canvas to the tkinter window
+canvas = FigureCanvasTkAgg(fig, master=root)
+canvas.draw()
+canvas.get_tk_widget().pack()
+
+# Run the tkinter main loop
 root.mainloop()
