@@ -3,149 +3,156 @@ from tkinter import ttk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-root = tk.Tk()
-root.title("NLF TESTER")
-root.geometry("1920x1080")
+def create_product_info_frame(parent):
+    frame = ttk.Frame(parent, relief="solid", borderwidth=1)
+    frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
 
-title_label = tk.Label(root, text="NLF TESTER", font=("Arial",16),bg ="lightblue", relief="solid")
-title_label.pack(fill="x")
+    fields = ["Customer", "Model", "Part no", "Part Name", "ALC", "#OF CHLS"]
+    for i, field in enumerate(fields):
+        ttk.Label(frame, text=field).grid(row=i, column=0, padx=5, pady=5, sticky="w")
+        ttk.Entry(frame).grid(row=i, column=1, padx=5, pady=5)
 
-product_info_frame = ttk.Frame(root,relief="solid", borderwidth=1)
-product_info_frame.place(x=50,y=50,width=320,height=200)
+    return frame
 
+def create_scan_codes_frame(parent):
+    frame = ttk.Frame(parent, relief="solid", borderwidth=1)
+    frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
 
-scan_codes_frame = ttk.Frame(root,relief="solid",borderwidth=1)
-scan_codes_frame.place(x=380,y=50,width=320,height=200)
+    scan_fields = ["Master cable", "Master Jig", "Employee Code"]
+    for i, field in enumerate(scan_fields):
+        ttk.Label(frame, text=field).grid(row=i, column=0, padx=5, pady=5, sticky="w")
+        ttk.Entry(frame).grid(row=i, column=1, padx=5, pady=5)
 
-production_count_frame = ttk.Frame(root,relief="solid",borderwidth=1)
-production_count_frame.place(x=710, y=50,width=450,height=200)
+    return frame
 
-function_frame = ttk.Frame(root, relief="solid", borderwidth=1)
-function_frame.place(x=1170, y=50, width=320, height=200)
+def create_production_count_frame(parent):
+    frame = ttk.Frame(parent, relief="solid", borderwidth=1)
+    frame.grid(row=0, column=2, padx=20, pady=20, sticky="nsew")
 
+    production_fields_one = ["Total", "PPM", "UPH"]
+    for i, field in enumerate(production_fields_one):
+        ttk.Label(frame, text=field).grid(row=i, column=0, padx=5, pady=5, sticky="w")
+        ttk.Entry(frame).grid(row=i, column=1, padx=5, pady=5)
 
-fields = ["Customer","Model","Part no", "Part Name", "ALC", "#OF CHLS"]
-for i, field in enumerate(fields):
-    ttk.Label(product_info_frame,text=field).grid(row = i, column = 0, padx = 5, pady = 5, sticky="w")
-    ttk.Entry(product_info_frame).grid(row = i, column = 1, padx = 5, pady = 5)
+    production_fields_two = ["PASS", "NG", "Test (sec)", "V_code"] 
+    for i, field in enumerate(production_fields_two):
+        ttk.Label(frame, text=field).grid(row=i, column=3, padx=5, pady=5, sticky="w")
+        ttk.Entry(frame).grid(row=i, column=4, padx=5, pady=5)
 
+    return frame
 
-scan_fields = ["Master cable", "Master Jig", "Employee Code"]
-for i, field in enumerate(scan_fields):
-    ttk.Label(scan_codes_frame, text=field).grid(row = i, column=0, padx = 5, pady = 5, sticky="w")
-    ttk.Entry(scan_codes_frame).grid(row = i, column = 1, padx = 5, pady = 5)
+def create_function_frame(parent):
+    frame = ttk.Frame(parent, relief="solid", borderwidth=1)
+    frame.grid(row=0, column=3, padx=20, pady=20, sticky="nsew")
 
+    buttons_one = ["ADMIN", "REPORT", "LABEL PRINT"]
+    for i, field in enumerate(buttons_one):
+        ttk.Button(frame, text=field).grid(row=i, column=0, padx=5, pady=5)
 
-production_fields_one = ["Total", "PPM", "UPH"]
-for i, field in enumerate(production_fields_one):
-    ttk.Label(production_count_frame, text = field).grid(row = i, column = 0, padx = 5, pady = 5,sticky="w")
-    ttk.Entry(production_count_frame, text = field).grid(row = i, column = 1, padx = 5, pady = 5)
+    buttons_two = ["SETTINGS", "NEW PART_NO", "COMPORT"] 
+    for i, field in enumerate(buttons_two):
+        ttk.Button(frame, text=field).grid(row=i, column=2, padx=5, pady=5)
 
-production_fields_two = ["PASS", "NG", "Test (sec)", "V_code"] 
-for i, field in enumerate(production_fields_two):
-    ttk.Label(production_count_frame, text = field).grid(row = i, column = 3, padx = 5, pady = 5, sticky="w")
-    ttk.Entry(production_count_frame, text = field).grid(row = i, column = 4, padx = 5, pady = 5)
+    return frame
 
-buttons_one = ["ADMIN", "REPORT","LABEL PRINT"]
-for i, field in enumerate(buttons_one):
-    ttk.Button(function_frame, text=field).grid(row=i, column=0, padx =5, pady=5) 
+def create_main_frame(parent):
+    frame = ttk.Frame(parent)
+    frame.grid(row=1, column=0, columnspan=4, padx=20, pady=20, sticky="nsew")
 
-buttons_two = ["SETTINGS", "NEW PART_NO", "COMPORT"] 
-for i, fields in enumerate(buttons_two):
-    ttk.Button(function_frame,text=field).grid(row=i, column=2, padx=5, pady=5)
+    select_cable_frame = ttk.Frame(frame, relief="solid", borderwidth=1)
+    select_cable_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
 
+    shift_cable_frame = ttk.Frame(frame, relief="solid", borderwidth=1)
+    shift_cable_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
 
-main_frame = ttk.Frame(root)
-main_frame.place(x = 10, y=270, width= 1800, height=500)
+    create_test_condition_labels(select_cable_frame, shift_cable_frame)
+    create_treeview(select_cable_frame, shift_cable_frame)
+    create_charts(select_cable_frame, shift_cable_frame)
 
-select_cable_frame = ttk.Frame(main_frame, relief="solid", borderwidth=1)
-select_cable_frame.place(x=47, y=0, width=700,height=500)
+    return frame
 
-shift_cable_frame = ttk.Frame(main_frame,relief="solid",borderwidth=1)
-shift_cable_frame.place(x=760,y=0,width=700,height=500)
+def create_test_condition_labels(select_frame, shift_frame):
 
-test_condition_label = tk.Label(select_cable_frame, text="TEST CONDITION", font=("arial",10))
-test_condition_label.place(x=0, y = 0, width=350, height=50)
+    ttk.Label(select_frame, text="TEST CONDITION", font=("Arial", 10)).grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+    ttk.Label(select_frame, text="TEST RESULT", font=("Arial", 10)).grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
-test_result_label = tk.Label(select_cable_frame, text="TEST RESULT", font=("arial",10))
-test_result_label.place(x=350, y = 0, width=350, height=50)
+  
+    ttk.Label(shift_frame, text="TEST CONDITION", font=("Arial", 10)).grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+    ttk.Label(shift_frame, text="TEST RESULT", font=("Arial", 10)).grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
-shift_test_condition_label = tk.Label(shift_cable_frame, text="TEST CONDITION", font=("arial",10))
-shift_test_condition_label.place(x=0, y = 0, width=350, height=50)
+def create_treeview(select_frame, shift_frame):
+    columns = ("Test Condition", "Test Result")
+    
+    
+    tree = ttk.Treeview(select_frame, columns=columns, show="headings")
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=100)
+    tree.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
-shift_test_result_label = tk.Label(shift_cable_frame, text="TEST RESULT", font=("arial",10))
-shift_test_result_label.place(x=350, y = 0, width=350, height=50)
+    
+    shift_tree = ttk.Treeview(shift_frame, columns=columns, show="headings")
+    for col in columns:
+        shift_tree.heading(col, text=col)
+        shift_tree.column(col, width=100)
+    shift_tree.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
-
-columns = ("Test Conditon", "Test Result")
-tree = ttk.Treeview(select_cable_frame, columns=columns, show="headings")
-for col in columns:
-    tree.heading(col,text=col)
-    tree.column(col, width=100)
-
-tree.place(x=40,y=50, width=600, height=180)
-
-# Create a matplotlib figure
-fig = Figure(figsize=(6, 2), dpi=100)
-plot = fig.add_subplot(1, 1, 1)
-
-# Sample data
-x = [1, 2, 3]
-y = [1, 4, 8]
-
-# Plot the data
-plot.plot(x, y, marker='D')  # D is for diamond marker
-
-# Set limits for x and y axes to match the example
-plot.set_xlim(0.8, 3.2)
-plot.set_ylim(0, 10)
-
-# Add the legend
-plot.legend(["Series1"], loc="best")
-
-# Create a canvas for the plot and add it to the select_cable_frame
-canvas_select = FigureCanvasTkAgg(fig, master=select_cable_frame)
-canvas_select.draw()
-canvas_select.get_tk_widget().place(x=40, y=240, width=600, height=250)
-
-# Create a canvas for the plot and add it to the shift_cable_frame
-canvas_shift = FigureCanvasTkAgg(fig, master=shift_cable_frame)
-canvas_shift.draw()
-canvas_shift.get_tk_widget().place(x=40, y=240, width=600, height=250)
-"""
-shift_tree = ttk.Treeview(shift_cable_frame, columns=columns, show="headings")
-for col in columns:
-    shift_tree.heading(col,text=col)
-    shift_tree.column(col, width=100)
-
-shift_tree.place(x=0, y=30, width=350, height=200)
+def create_charts(select_frame, shift_frame):
+    
+    fig = Figure(figsize=(6, 2), dpi=100)
+    plot = fig.add_subplot(1, 1, 1)
 
 
+    x = [1, 2, 3]
+    y = [1, 4, 8]
+    plot.plot(x, y, marker='D')  
 
-columns = ("Test Conditon", "Test Result")
-tree = ttk.Treeview(select_cable_frame, columns=columns, show="headings")
-for col in columns:
-    tree.heading(col,text=col)
-    tree.column(col, width=100)
+    plot.set_xlim(0.8, 3.2)
+    plot.set_ylim(0, 10)
+    plot.legend(["Series1"], loc="best")
 
-tree.place(x=0,y=30, width=350, height=200)
-"""
-shift_tree = ttk.Treeview(shift_cable_frame, columns=columns, show="headings")
-for col in columns:
-    shift_tree.heading(col,text=col)
-    shift_tree.column(col, width=100)
-
-shift_tree.place(x=40, y=50, width=600, height=180)
+ 
+    canvas_select = FigureCanvasTkAgg(fig, master=select_frame)
+    canvas_select.draw()
+    canvas_select.get_tk_widget().grid(row=2, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
 
+    canvas_shift = FigureCanvasTkAgg(fig, master=shift_frame)
+    canvas_shift.draw()
+    canvas_shift.get_tk_widget().grid(row=2, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
+def create_footer_frame(parent):
+    frame = ttk.Frame(parent, relief="solid", borderwidth=1)
+    frame.grid(row=2, column=0, columnspan=4, padx=20, pady=20, sticky="nsew")
 
-footer_frame = ttk.Frame(root, relief="solid", borderwidth=1)
-footer_frame.place(x=55,y=780, width=1415, height=40)
+    footer_fields = ["LOAD", "KGF", "STROKE", "MM", "SPEED", "MM/SEC"]
+    for i, field in enumerate(footer_fields):
+        ttk.Label(frame, text=field).grid(row=0, column=i*2, padx=15, pady=10)
+        ttk.Entry(frame).grid(row=0, column=i*2+1, padx=15, pady=10)
 
-footer_fields = ["LOAD", "KGF", "STROKE", "MM", "SPEED", "MM/SEC"]
-for i, field in enumerate(footer_fields):
-    ttk.Label(footer_frame, text=field).grid(row=0, column=i*2,padx=15,pady=10)
-    ttk.Entry(footer_frame).grid(row=0, column=i*2+1, padx=15, pady=10)
+    return frame
 
-root.mainloop()
+def setup_main_window():
+    root = tk.Tk()
+    root.title("NLF TESTER")
+    root.geometry("1920x1080")
+
+    title_label = tk.Label(root, text="NLF TESTER", font=("Arial", 16), bg="lightblue", relief="solid")
+    title_label.grid(row=0, column=0, columnspan=4, padx=20, pady=5, sticky="nsew")
+
+    root.grid_rowconfigure(1, weight=1)  
+    root.grid_columnconfigure(0, weight=1)  
+
+   
+    create_product_info_frame(root)
+    create_scan_codes_frame(root)
+    create_production_count_frame(root)
+    create_function_frame(root)
+    create_main_frame(root)
+    create_footer_frame(root)
+
+    return root
+
+if __name__ == "__main__":
+    root = setup_main_window()
+    root.mainloop()
